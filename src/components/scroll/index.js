@@ -43,7 +43,9 @@ const Scroll = React.forwardRef((props,ref)=>{
     useEffect (() => {
         if (!bScroll || !onScroll) return;
         bScroll.on ('scroll', (scroll) => {
+
             onScroll (scroll);
+
         });
         return () => {
             bScroll.off ('scroll');
@@ -53,6 +55,9 @@ const Scroll = React.forwardRef((props,ref)=>{
     useEffect (() => {
         if (!bScroll || !pullUp) return;
         bScroll.on ('scrollEnd', () => {
+
+            console.log(bScroll.y,bScroll.maxScrollY);
+
             // 判断是否滑动到了底部
             if (bScroll.y <= bScroll.maxScrollY + 100){
                 pullUp ();
@@ -66,6 +71,9 @@ const Scroll = React.forwardRef((props,ref)=>{
     useEffect (() => {
         if (!bScroll || !pullDown) return;
         bScroll.on ('touchEnd', (pos) => {
+
+            console.log(bScroll.y);
+
             // 判断用户的下拉动作
             if (pos.y > 50) {
                 pullDown ();

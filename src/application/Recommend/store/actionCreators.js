@@ -38,6 +38,7 @@ export const getBannerList = () => {
 
 };
 
+//获取到歌单
 export const getRecommendList = () => {
 
     return (dispatch) => {
@@ -45,6 +46,8 @@ export const getRecommendList = () => {
         getRecommendListRequest().then (data => {
 
             dispatch(changeRecommendList(data.result));
+
+            dispatch(changeEnterLoading(false));
 
         }).catch(() => {
 
@@ -55,3 +58,11 @@ export const getRecommendList = () => {
     }
 
 };
+
+export const changeEnterLoading = (data) => ({
+
+    type:actionTypes.CHANGE_ENTER_LOADING,
+
+    data
+
+});

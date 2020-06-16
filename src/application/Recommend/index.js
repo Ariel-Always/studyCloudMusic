@@ -12,20 +12,32 @@ import Scroll from '../../components/scroll/index';
 
 import RecommendList from '../../components/list/index';
 
+import {forceCheck} from "react-lazyload";
+
+import Loading from "../../baseUI/loading/index";
+
 function Recommend (props){
 
      //mock 数据
 
-    const {bannerList,recommendList} = props;
+    const {bannerList,recommendList,enterLoading} = props;
 
     const { getBannerDataDispatch, getRecommendListDataDispatch } = props;
 
     useEffect (() => {
-        getBannerDataDispatch ();
 
+        if(!bannerList.size){
+
+            getBannerDataDispatch ();
+
+        }
+
+       if(!recommendList.size){
 
         getRecommendListDataDispatch ();
-        //eslint-disable-next-line
+
+       }
+        
     }, []);
 
     const bannerListJS = bannerList ? bannerList.toJS () : [];
@@ -37,7 +49,7 @@ function Recommend (props){
 
         <Content>
 
-            <Scroll className="list">
+            <Scroll className="list" onScroll={forceCheck}>
 
                 <div>
 
@@ -48,6 +60,18 @@ function Recommend (props){
                 </div>
 
             </Scroll>
+
+            {
+
+                enterLoading?
+
+                <Loading></Loading> 
+
+                :null
+
+            }
+
+           
 
         </Content>
 
@@ -61,7 +85,9 @@ const mapStateToProps = (state) =>{
 
       bannerList: state.getIn (['recommend', 'bannerList']),
 
-      recommendList: state.getIn (['recommend', 'recommendList'])
+      recommendList: state.getIn (['recommend', 'recommendList']),
+
+      enterLoading:state.getIn(['recomend','enterLoading'])
 
   }
 
